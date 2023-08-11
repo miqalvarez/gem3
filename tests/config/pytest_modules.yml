@@ -1571,6 +1571,10 @@ gem2/gemmappability:
   - modules/nf-core/gem2/gemmappability/**
   - tests/modules/nf-core/gem2/gemmappability/**
 
+gem3/gem3mapper:
+  - modules/nf-core/gem3/gem3mapper/**
+  - tests/modules/nf-core/gem3/gem3mapper/**
+
 genescopefk:
   - modules/nf-core/genescopefk/**
   - tests/modules/nf-core/genescopefk/**
