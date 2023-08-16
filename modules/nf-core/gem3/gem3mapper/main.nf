@@ -27,8 +27,8 @@ process GEM3_GEM3MAPPER {
     // ADD SAMTOOLS TO CONDA
     conda "bioconda::gem3-mapper=3.6.1 bioconda::samtools=1.16.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/gem3-mapper:3.6.1--h67092d7_10':
-        'biocontainers/gem3-mapper:3.6.1--h67092d7_10' }"
+        '/home/imfx/curr_work/sarek/gem3-samtools.sif':
+        'malv01/gem3-samtools' }"
 
     input:
     // TODO nf-core: Where applicable all sample-specific information e.g. "id", "single_end", "read_group"
@@ -73,11 +73,11 @@ process GEM3_GEM3MAPPER {
     
     // split fastq?
     """
-    gem-mapper -F 'SAM' -I $index -i $fastq -t $task.cpus | samtools view -bS - > ${prefix}.bam
+    gem-mapper -F 'SAM' -I $index -i $fastq -t $task.cpus | samtools view -bS -o ${prefix}.bam -
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        gem3-mapper: \$(echo \$(gem3-mapper --version 2>&1))
+        gem-mapper: \$(echo \$(gem-mapper --version 2>&1) | sed 's/v//')
         samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
     END_VERSIONS
     """
@@ -94,7 +94,8 @@ process GEM3_GEM3MAPPER {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        : \$(echo \$(gem3-mapper --version 2>&1))
+        gem-mapper: \$(echo \$(gem-mapper --version 2>&1))
+        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
     END_VERSIONS
     """
 }

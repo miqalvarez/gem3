@@ -6,18 +6,19 @@ include { GEM3_GEM3MAPPER } from '../../../../../modules/nf-core/gem3/gem3mapper
 
 workflow test_gem3_gem3mapper {
     
-    input = [
+    index = [
         [ id:'test', single_end:true ], // meta map
         [
-            file("../data/fastas/SRR935389.fastq", checkIfExists: true)
+            file("/home/imfx/curr_work/sarek/data/indexes/Tri.gem" , checkIfExists: true)
+
         ]
     ]
-    input2 = [
+    fastq = [
         [ id:'test', single_end:true ], // meta map
         [
-            file("../data/indexes/Tri.gem" , checkIfExists: true)
+            file("/home/imfx/curr_work/sarek/data/fastas/SRR935389.fastq", checkIfExists: true)
         ]
     ]
 
-    GEM3_GEM3MAPPER ( input, input2 )
+    GEM3_GEM3MAPPER ( index, fastq )
 }
