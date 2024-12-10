@@ -1,0 +1,59 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
+name: "sinple"
+description: Performs variant calling to detect low-frequency variants using SiNPle, based on a Bayesian model.
+keywords:
+  - variant-calling
+  - genomics
+  - sequencing
+tools:
+  - "sinple":
+      description: "SiNPle (Simplified Inference of Novel Polymorphisms from Large coveragE), a Bayesian-based tool for variant calling."
+      homepage: "https://github.com/PaoloRibeca/SiNPle"
+      doi: "10.3390/genes10080561"
+      licence: ["GPL v3"]
+      identifier: ""
+
+input:
+  - - meta:
+        type: map
+        description: |
+          Groovy Map containing sample information
+          e.g. `[ id:'sample1', single_end:false ]`
+    - bam:
+        type: file
+        description: |
+          Input BAM file containing the aligned sequencing reads.
+          Example: "sample.bam"
+        pattern: "*.bam"
+        ontologies:
+          - edam: "http://edamontology.org/format_2573"
+  - - sensitivity:
+        type: string
+        description: |
+          Sensitivity threshold for variant calling. Adjusts the `theta` parameter in SiNPle.
+          Example: "0.001" or "0.1"
+
+output:
+  - variants:
+      - meta:
+          type: map
+          description: |
+            Groovy Map containing sample information
+            e.g. `[ id:'sample1', single_end:false ]`
+      - "variants.txt":
+          type: file
+          description: Text file containing detected variants.
+          pattern: "variants.txt"
+          ontologies:
+            - edam: "http://edamontology.org/data_3498"
+  - versions:
+      - "versions.yml":
+          type: file
+          description: File containing software versions.
+          pattern: "versions.yml"
+
+authors:
+  - "@miqalvarez"
+maintainers:
+  - "@miqalvarez"
