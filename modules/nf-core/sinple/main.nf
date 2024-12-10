@@ -64,6 +64,7 @@ process SINPLE {
     samtools mpileup \\
         -d 1000000 \\
         -a -A -B -Q 0 \\
+        $args \\
         $bam | \\
     sinple \\
         --theta $sensitivity \\
