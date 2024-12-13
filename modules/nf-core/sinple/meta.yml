@@ -7,7 +7,7 @@ keywords:
   - genomics
   - sequencing
 tools:
-  - "sinple":
+  - "SiNPle":
       description: "SiNPle (Simplified Inference of Novel Polymorphisms from Large coveragE), a Bayesian-based tool for variant calling."
       homepage: "https://github.com/PaoloRibeca/SiNPle"
       doi: "10.3390/genes10080561"
@@ -20,19 +20,14 @@ input:
         description: |
           Groovy Map containing sample information
           e.g. `[ id:'sample1', single_end:false ]`
-    - bam:
+    - pileup:
         type: file
         description: |
-          Input BAM file containing the aligned sequencing reads.
-          Example: "sample.bam"
-        pattern: "*.bam"
+          Pileup file containing the reads and their quality scores.
+          Example: `sample.pileup`
+        pattern: "*.pileup"
         ontologies:
-          - edam: "http://edamontology.org/format_2573"
-  - - sensitivity:
-        type: string
-        description: |
-          Sensitivity threshold for variant calling. Adjusts the `theta` parameter in SiNPle.
-          Example: "0.001" or "0.1"
+          - edam: "http://edamontology.org/format_3015"
 
 output:
   - variants:

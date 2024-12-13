@@ -34,15 +34,14 @@ process SINPLE {
     //               https://github.com/nf-core/modules/blob/master/modules/nf-core/bwa/index/main.nf
     // TODO nf-core: Where applicable please provide/convert compressed files as input/output
     //               e.g. "*.fastq.gz" and NOT "*.fastq", "*.bam" and NOT "*.sam" etc.
-    tuple val(meta), path(bam)
-    val(sensitivity) // Sensibilidad para el parámetro theta
+    tuple val(meta), path(mpileup)
 
     output:
     // TODO nf-core: Named file extensions MUST be emitted for ALL output channels
     //tuple val(meta), path("*.bam"), emit: bam
     // TODO nf-core: List additional required output channels/values here
     //path "versions.yml"           , emit: versions
-    tuple val(meta), path("*.vcf"), emit: vcf
+    tuple val(meta), path("*.txt"), emit: txt
     path "versions.yml", emit: versions
 
     when:
@@ -61,19 +60,14 @@ process SINPLE {
     def args = task.ext.args ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
     """
-    samtools mpileup \\
-        -d 1000000 \\
-        -a -A -B -Q 0 \\
+    SiNPle \\
+        -i $mpileup \\
         $args \\
-        $bam | \\
-    sinple \\
-        --theta $sensitivity \\
-        > ${prefix}.vcf
+        > ${prefix}.txt
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        sinple: //TODO
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
+        SiNPle: \$( echo \$(SiNPle --version))
     END_VERSIONS
     """
 
@@ -83,8 +77,7 @@ process SINPLE {
     touch ${prefix}.vcf
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        sinple: //TODO
-        samtools: \$(echo \$(samtools --version 2>&1) | sed 's/^.*samtools //; s/Using.*\$//')
+        SiNPle: \$( echo \$(SiNPle --version))
     END_VERSIONS
     """
 }
